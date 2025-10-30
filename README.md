@@ -28,3 +28,6 @@
 ### How to test?
 - Android -> you can test on android simulator
 - Ios -> you only test on real devices
+
+<img width="293" height="633" alt="Simulator Screenshot - iPhone 13 Pro - 2025-10-30 at 01 05 52" src="https://github.com/user-attachments/assets/55ca5249-3590-4e97-a3da-681b4b70445c" />
+
