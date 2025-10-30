@@ -14,3 +14,13 @@
 - Need connection with internet
 - Background app refresh ON
 - App needs to be in the background, if user quit the app, background task dont work
+
+### Best Practices
+- Do light tasks
+- group tasks
+
+### Use Cases
+- Sync user data(offline database, files)
+- Upload logs
+- short backups
+- Prefetch content
