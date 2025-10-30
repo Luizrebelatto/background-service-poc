@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { AppState, AppStateStatus, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Info, getInfoHistory, initializeBackgroundTask } from './backgroundtasks';
+import { initializeBackgroundTask } from './backgroundtasks';
 import * as TaskManager from "expo-task-manager";
+import { Info } from './src/types';
+import { getInfoHistory } from './src/store';
 
 TaskManager.getRegisteredTasksAsync().then((task) => {
   console.log(task)
@@ -30,12 +32,12 @@ export default function App() {
       "change",
       (nextAppState: AppStateStatus) => {
         if (
-          appState.current.match(/inactive|background/) &&
+          (appState.current === "inactive" || appState.current === "background") &&
           nextAppState === "active"
         ) {
-          loadInfoHistory()
+          loadInfoHistory();
         }
-        if (appState.current.match(/active/) && nextAppState === "background") {
+        if (appState.current === "active" && nextAppState === "background") {
           console.log("App has gone to the background!");
         }
         appState.current = nextAppState;

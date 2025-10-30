@@ -1,22 +1,8 @@
 import * as BackgroundTasks from "expo-background-task";
 import * as TaskManager from "expo-task-manager";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const BACKGROUND_TASK_IDENTIFIER = "fetch-info-tasks";
-const MINIMUM_INTERVAL = 15;
-const INFO_HISTORY_KEY = "@info_history";
-const MAX_INFO_HISTORY = 10;
-const API_URL = "https://zenquotes.io/api/random"
-
-
-export type Info = {
-    q: string;
-    a: string;
-    h: string;
-    timestamp: number;
-}
-
-type InfoHistory = Info[]
+import { API_URL, BACKGROUND_TASK_IDENTIFIER, MINIMUM_INTERVAL } from "./src/constants";
+import { Info } from "./src/types";
+import { storeInfoHistory } from "./src/store";
 
 export const initializeBackgroundTask = async (innerAppMountedPromise: Promise<void>) => {
     TaskManager.defineTask(BACKGROUND_TASK_IDENTIFIER, async () => {
@@ -43,30 +29,4 @@ export const initializeBackgroundTask = async (innerAppMountedPromise: Promise<v
             minimumInterval: MINIMUM_INTERVAL
         })
     }
-}
-
-export const getInfoHistory = async (): Promise<InfoHistory | null> => {
-    try {
-        const history_info = await AsyncStorage.getItem(INFO_HISTORY_KEY);
-        return history_info ? JSON.parse(history_info) : [] ;
-    } catch (error) {
-        console.log(`Error fetching info history: ${error}`)
-        return null;
-    }
-}
-
-async function storeInfoHistory(info: Info){
-    const history_info = await AsyncStorage.getItem(INFO_HISTORY_KEY);
-    const history: InfoHistory = history_info ? JSON.parse(history_info) : [] ;
-
-    const newInfo = {
-        ...info,
-        timestamp: Date.now()
-    }
-
-    const updateInfo = [newInfo, ...history].slice(0, MAX_INFO_HISTORY);
-
-    await AsyncStorage.setItem(INFO_HISTORY_KEY, JSON.stringify(updateInfo));
-
-    return updateInfo;
 }
