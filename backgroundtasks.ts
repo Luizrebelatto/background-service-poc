@@ -45,6 +45,16 @@ export const initializeBackgroundTask = async (innerAppMountedPromise: Promise<v
     }
 }
 
+export const getInfoHistory = async (): Promise<InfoHistory | null> => {
+    try {
+        const history_info = await AsyncStorage.getItem(INFO_HISTORY_KEY);
+        return history_info ? JSON.parse(history_info) : [] ;
+    } catch (error) {
+        console.log(`Error fetching info history: ${error}`)
+        return null;
+    }
+}
+
 async function storeInfoHistory(info: Info){
     const history_info = await AsyncStorage.getItem(INFO_HISTORY_KEY);
     const history: InfoHistory = history_info ? JSON.parse(history_info) : [] ;
