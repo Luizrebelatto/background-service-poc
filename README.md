@@ -24,3 +24,7 @@
 - Upload logs
 - short backups
 - Prefetch content
+
+### How to test?
+- Android -> you can test on android simulator
+- Ios -> you only test on real devices
