@@ -37,6 +37,12 @@ export const initializeBackgroundTask = async (innerAppMountedPromise: Promise<v
 
         console.log("Task done ")
     })
+
+    if (!(await TaskManager.isTaskRegisteredAsync(BACKGROUND_TASK_IDENTIFIER))) {
+        await BackgroundTasks.registerTaskAsync(BACKGROUND_TASK_IDENTIFIER, {
+            minimumInterval: MINIMUM_INTERVAL
+        })
+    }
 }
 
 async function storeInfoHistory(info: Info){
