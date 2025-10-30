@@ -30,4 +30,5 @@
 - Ios -> you only test on real devices
 
 <img width="293" height="633" alt="Simulator Screenshot - iPhone 13 Pro - 2025-10-30 at 01 05 52" src="https://github.com/user-attachments/assets/55ca5249-3590-4e97-a3da-681b4b70445c" />
+<img width="735" height="40" alt="Screenshot 2025-10-30 at 01 07 49" src="https://github.com/user-attachments/assets/54a3360b-1062-4fdf-a14d-b93f8332699a" />
 
