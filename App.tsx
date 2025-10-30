@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { AppState, AppStateStatus, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Info, getInfoHistory, initializeBackgroundTask } from './backgroundtasks';
 import * as TaskManager from "expo-task-manager";
 
@@ -17,6 +17,7 @@ initializeBackgroundTask(promise)
 
 export default function App() {
   const [infoHistory, setInfoHistory] = useState<Info[]>([]);
+  const appState = useRef(AppState.currentState)
 
   useEffect(() => {
     if(resolver){
@@ -24,6 +25,26 @@ export default function App() {
       console.log("resolver called")
     }
     loadInfoHistory();
+
+    const appStateSubscription = AppState.addEventListener(
+      "change",
+      (nextAppState: AppStateStatus) => {
+        if (
+          appState.current.match(/inactive|background/) &&
+          nextAppState === "active"
+        ) {
+          loadInfoHistory()
+        }
+        if (appState.current.match(/active/) && nextAppState === "background") {
+          console.log("App has gone to the background!");
+        }
+        appState.current = nextAppState;
+      }
+    );
+
+    return () => {
+      appStateSubscription.remove();
+    };
   },[])
 
   const loadInfoHistory = async () => {
